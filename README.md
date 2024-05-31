@@ -21,7 +21,6 @@ And input a 9 digit string for each row of the sudoku ex:
 
 The program will output a solved sudoku if there is a possible solution, it will say there isn't one if the sudoku you provided isn't solvable.
 
----
 Info:
 -----
 This is a self-study project, this isn't meant to be groundbreaking, it is in fact quite the opposite. I made this purely to learn from.
