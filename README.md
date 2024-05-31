@@ -23,4 +23,4 @@ The program will output a solved sudoku if there is a possible solution, it will
 
 Info:
 -----
-This is a self-study project, this isn't meant to be groundbreaking, it is in fact quite the opposite. I made this purely to learn from.
+This is a self-study project, this isn't meant to be groundbreaking, it is in fact quite the opposite. 
