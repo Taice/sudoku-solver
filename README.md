@@ -5,6 +5,7 @@ Usage:
 Compiling:
 `$ gcc main.c -o main`
 
+### input the sudoku
 After compiling run:
 `$ ./main`
 
@@ -19,7 +20,16 @@ And input a 9 digit string for each row of the sudoku ex:
 8: 123456789
 9: 123456789`
 
+### reading the sudoku from a file
+After compiling run:
+`$ ./main <filename>`
+
+Make sure the file has a 9x9 grid of digits and nothing else.
+
+---
+
 The program will output a solved sudoku if there is a possible solution, it will say there isn't one if the sudoku you provided isn't solvable.
+
 
 Info:
 -----
