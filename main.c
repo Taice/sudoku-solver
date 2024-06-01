@@ -1,34 +1,43 @@
 #include <ctype.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
 #define SIZE 9
 #define SUBGRID_SIZE 3
 
+void input_sudoku();
 bool is_valid(int arr[SIZE][SIZE]);
 bool backtrack(int arr[SIZE][SIZE]);
 bool find_empty_space(int arr[SIZE][SIZE], int *row, int *col);
 
 int sudoku[SIZE][SIZE];
 
-int main(void) {
-  char strings[SIZE][SIZE];
+int main(int argc, char **argv) {
+  if (argc == 1) {
+    input_sudoku();
+  } else if (argc == 2) {
+    FILE *file = fopen(argv[1], "r");
+    if (file == NULL) {
+      perror("Error opening file");
+      return 1;
+    }
 
-  printf("Please input strings of 9 digits, using 0 if your slot is empty.");
-
-  for (int i = 0; i < SIZE; i++) {
-    printf("%i: ", i + 1);
-    fgets(strings[i], SIZE * 3, stdin);
-  }
-
-  for (int i = 0; i < SIZE; i++) {
-    int col = 0;
-    for (int j = 0; j < SIZE && col < SIZE; j++) {
-      if (isdigit(strings[i][j])) {
-        sudoku[i][col] = strings[i][j] - '0';
-        col++;
+    for (int i = 0; i < SIZE; i++) {
+      for (int j = 0; j < SIZE; j++) {
+        if (fscanf(file, "%1d", &sudoku[i][j]) != 1) {
+          fprintf(stderr, "Invalid input format in file\n");
+          fclose(file);
+          return 1;
+        }
       }
     }
+    fclose(file);
+  } else {
+    fprintf(stderr, "Usage: %s [filename]\n", argv[0]);
+    return 1;
   }
 
   if (backtrack(sudoku)) {
@@ -40,7 +49,7 @@ int main(void) {
       printf("\n");
     }
   } else {
-    printf("no solution exists.\n");
+    printf("No solution exists.\n");
   }
   return 0;
 }
@@ -99,4 +108,26 @@ bool backtrack(int arr[SIZE][SIZE]) {
     arr[row][col] = 0;
   }
   return false;
+}
+
+void input_sudoku() {
+  printf("Please input 9 strings of 9 digits each, using 0 for empty slots.\n");
+
+  for (int i = 0; i < SIZE; i++) {
+    printf("%d: ", i + 1);
+    char buffer[SIZE + 2];
+    if (fgets(buffer, sizeof(buffer), stdin) == NULL) {
+      fprintf(stderr, "Error reading input\n");
+      exit(EXIT_FAILURE);
+    }
+
+    for (int j = 0; j < SIZE; j++) {
+      if (isdigit(buffer[j])) {
+        sudoku[i][j] = buffer[j] - 0;
+      } else {
+        fprintf(stderr, "Invalid character in input\n");
+        exit(EXIT_FAILURE);
+      }
+    }
+  }
 }
