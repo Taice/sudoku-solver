@@ -8,6 +8,7 @@
 #define SIZE 9
 #define SUBGRID_SIZE 3
 
+int file_sudoku(const char *filename);
 void input_sudoku();
 bool is_valid(int arr[SIZE][SIZE]);
 bool backtrack(int arr[SIZE][SIZE]);
@@ -19,22 +20,9 @@ int main(int argc, char **argv) {
   if (argc == 1) {
     input_sudoku();
   } else if (argc == 2) {
-    FILE *file = fopen(argv[1], "r");
-    if (file == NULL) {
-      perror("Error opening file");
+    if (file_sudoku(argv[1]) == 1) {
       return 1;
     }
-
-    for (int i = 0; i < SIZE; i++) {
-      for (int j = 0; j < SIZE; j++) {
-        if (fscanf(file, "%1d", &sudoku[i][j]) != 1) {
-          fprintf(stderr, "Invalid input format in file\n");
-          fclose(file);
-          return 1;
-        }
-      }
-    }
-    fclose(file);
   } else {
     fprintf(stderr, "Usage: %s [filename]\n", argv[0]);
     return 1;
@@ -130,4 +118,22 @@ void input_sudoku() {
       }
     }
   }
+}
+int file_sudoku(const char *filename) {
+  FILE *file = fopen(filename, "r");
+  if (file == NULL) {
+    perror("Error opening file");
+    return 1;
+  }
+
+  for (int i = 0; i < SIZE; i++) {
+    for (int j = 0; j < SIZE; j++) {
+      if (fscanf(file, "%1d", &sudoku[i][j]) != 1) {
+        fprintf(stderr, "Invalid input format in file\n");
+        fclose(file);
+        return 1;
+      }
+    }
+  }
+  fclose(file);
 }
