@@ -28,18 +28,23 @@ int main(int argc, char **argv) {
     return 1;
   }
 
-  if (backtrack(sudoku)) {
-    printf("Solved!\n");
-    for (int i = 0; i < SIZE; i++) {
-      for (int j = 0; j < SIZE; j++) {
-        printf("%d ", sudoku[i][j]);
+  if (is_valid(sudoku)) {
+    if (backtrack(sudoku)) {
+      printf("Solved!\n");
+      for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+          printf("%d ", sudoku[i][j]);
+        }
+        printf("\n");
       }
-      printf("\n");
+    } else {
+      printf("No solution exists.\n");
     }
+    return 0;
   } else {
-    printf("No solution exists.\n");
+    printf("invalid sudoku");
+    return 0;
   }
-  return 0;
 }
 
 bool is_valid(int arr[SIZE][SIZE]) {
