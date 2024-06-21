@@ -4,10 +4,15 @@ Usage:
 ------
 Compiling:
 `$ gcc main.c -o main`
+OR
+`$ cd java
+$ javac Main.java`
 
 ### input the sudoku
 After compiling run:
 `$ ./main`
+OR using the java version:
+`$ java Main` (in the java directory)
 
 And input a 9 digit string for each row of the sudoku ex:
 `1: 123456789
