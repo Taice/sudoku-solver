@@ -9,10 +9,8 @@ OR
 $ javac Main.java`
 
 ### input the sudoku
-After compiling run:
+After compiling run: (c version)
 `$ ./main`
-OR using the java version:
-`$ java Main` (in the java directory)
 
 And input a 9 digit string for each row of the sudoku ex:
 `1: 123456789
@@ -25,11 +23,18 @@ And input a 9 digit string for each row of the sudoku ex:
 8: 123456789
 9: 123456789`
 
-### reading the sudoku from a file
+OR using the java version:
+`$ java sudokuSolver.Main` (in the java directory)
+
+
+### reading the sudoku from a file with the c version
 After compiling run:
 `$ ./main <filename>`
 
 Make sure the file has a 9x9 grid of digits and nothing else.
+
+> [!NOTE]
+> the java version doesn't support reading from files because i see it as unnecessary.
 
 ---
 
