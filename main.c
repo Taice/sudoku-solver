@@ -8,19 +8,18 @@
 #define SIZE 9
 #define SUBGRID_SIZE 3
 
-int file_sudoku(const char *filename);
-void input_sudoku();
-bool is_valid(int arr[SIZE][SIZE]);
-bool backtrack(int arr[SIZE][SIZE]);
-bool find_empty_space(int arr[SIZE][SIZE], int *row, int *col);
-
-int sudoku[SIZE][SIZE];
+int file_sudoku(const char *filename, int sudoku[SIZE][SIZE]);
+void input_sudoku(int sudoku[SIZE][SIZE]);
+bool is_valid(int sudoku[SIZE][SIZE]);
+bool backtrack(int sudoku[SIZE][SIZE]);
+bool find_empty_space(int sudoku[SIZE][SIZE], int *row, int *col);
 
 int main(int argc, char **argv) {
+  int sudoku[SIZE][SIZE];
   if (argc == 1) {
-    input_sudoku();
+    input_sudoku(sudoku);
   } else if (argc == 2) {
-    if (file_sudoku(argv[1]) == 1) {
+    if (file_sudoku(argv[1], sudoku) == 1) {
       return 1;
     }
   } else {
@@ -47,15 +46,15 @@ int main(int argc, char **argv) {
   }
 }
 
-bool is_valid(int arr[SIZE][SIZE]) {
+bool is_valid(int sudoku[SIZE][SIZE]) {
   bool rows[SIZE][SIZE] = {false};
   bool cols[SIZE][SIZE] = {false};
   bool boxes[SIZE][SIZE] = {false};
 
   for (int i = 0; i < SIZE; i++) {
     for (int j = 0; j < SIZE; j++) {
-      if (arr[i][j] != 0) {
-        int num = arr[i][j] - 1;
+      if (sudoku[i][j] != 0) {
+        int num = sudoku[i][j] - 1;
         int box_index = (i / SUBGRID_SIZE) * SUBGRID_SIZE + j / SUBGRID_SIZE;
 
         if (rows[i][num] || cols[j][num] || boxes[box_index][num]) {
@@ -71,10 +70,10 @@ bool is_valid(int arr[SIZE][SIZE]) {
   return true;
 }
 
-bool find_empty_space(int arr[SIZE][SIZE], int *row, int *col) {
+bool find_empty_space(int sudoku[SIZE][SIZE], int *row, int *col) {
   for (*row = 0; *row < SIZE; (*row)++) {
     for (*col = 0; *col < SIZE; (*col)++) {
-      if (arr[*row][*col] == 0) {
+      if (sudoku[*row][*col] == 0) {
         return true;
       }
     }
@@ -82,28 +81,28 @@ bool find_empty_space(int arr[SIZE][SIZE], int *row, int *col) {
   return false;
 }
 
-bool backtrack(int arr[SIZE][SIZE]) {
+bool backtrack(int sudoku[SIZE][SIZE]) {
   int row, col;
 
-  if (!find_empty_space(arr, &row, &col)) {
+  if (!find_empty_space(sudoku, &row, &col)) {
     return true;
   }
 
   for (int num = 1; num <= SIZE; num++) {
-    arr[row][col] = num;
+    sudoku[row][col] = num;
 
-    if (is_valid(arr)) {
-      if (backtrack(arr)) {
+    if (is_valid(sudoku)) {
+      if (backtrack(sudoku)) {
         return true;
       }
     }
 
-    arr[row][col] = 0;
+    sudoku[row][col] = 0;
   }
   return false;
 }
 
-void input_sudoku() {
+void input_sudoku(int sudoku[SIZE][SIZE]) {
   printf("Please input 9 strings of 9 digits each, using 0 for empty slots.\n");
 
   for (int i = 0; i < SIZE; i++) {
@@ -124,7 +123,8 @@ void input_sudoku() {
     }
   }
 }
-int file_sudoku(const char *filename) {
+
+int file_sudoku(const char *filename, int sudoku[SIZE][SIZE]) {
   FILE *file = fopen(filename, "r");
   if (file == NULL) {
     perror("Error opening file");
@@ -141,4 +141,5 @@ int file_sudoku(const char *filename) {
     }
   }
   fclose(file);
+  return 0;
 }

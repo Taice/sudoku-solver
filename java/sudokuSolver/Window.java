@@ -7,7 +7,8 @@ public class Window extends JFrame {
         this.setTitle(title);
         this.setSize(width, height);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        this.setUndecorated(false);
         this.setVisible(true);
+        this.setLocationRelativeTo(null);
     }
 }
